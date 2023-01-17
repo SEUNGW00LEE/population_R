@@ -1,6 +1,8 @@
 # 엑셀 파일 불러오기
 # library(readxl)
 
+setwd("/Users/seungwoo/Desktop/population_R/")
+
 population1_2540 = read_excel("/Users/seungwoo/Desktop/population_R/dataset/1925,1940population.xlsx")
 population2_4470 = read_excel("/Users/seungwoo/Desktop/population_R/dataset/1944~1970population.xlsx")
 population3_7510 = read_excel("/Users/seungwoo/Desktop/population_R/dataset/1975~2010population.xlsx")
@@ -86,9 +88,21 @@ df_4$행정구역별[339:358] <- "제주도"
 
 # 데이터 결합
 
-# library(dplyr)
+library(dplyr)
 
 df_12 <- full_join(df_1, df_2)
 df_123 <- full_join(df_12, df_3)
-df_1234 <- full_join(df_123, df_4)
+
+# df_4는 df_123과 다르게 연령이 0 - 4세가 아닌 0 ~ 5세로 됐다.
+
+df_4$연령별 <- gsub("~"," - ", df_4$연령별) 
+#gsub를 통해 ~를 -로 변경
+
+df_1234 <- full_join(df_123, df_4) 
+
+# df_1234를 엑셀파일로 저장
+
+# install.packages('openxlsx')
+library(openxlsx)
+write.xlsx(df_1234, file = "dataset/alltime_population.xlsx")
 
