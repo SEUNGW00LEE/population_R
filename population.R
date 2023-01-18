@@ -113,6 +113,12 @@ names(df_1234) <- c('행정구역별', "연령별", "1925년 총인구(명)", "1
 
 df_1234 <- df_1234[-1, ] #첫번째 행을 삭제(column과 설명 동일)
 
+#data type이 character인 문제가 있다. numeric으로 바꿔줘야한다.
+
+for(n_col in 3:90){
+  df_1234[, n_col] = as.numeric(df_1234[, n_col])
+}
+
 # df_1234를 엑셀파일로 저장
 # install.packages('openxlsx')
 
@@ -131,15 +137,22 @@ write.xlsx(df_1234, file = "dataset/alltime_population.xlsx")
 
 library(ggplot2)
 
-# 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
+install.packages("extrafont")
+library(extrafont)
+font_import()
 
+# Data Visualization Concrete
+
+# 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
 # 각 연도, 행정구역, 연령별 인구 히스토그램(ggplot) -> 모든 행정구역별 히스토그램 -> 연도별 행정구역, 연령별 인구 히스토그램 애니메이션(gganimate)
 
-#data type이 character인 문제가 있다. num으로 바꿔줘야한다.
-for(n_col in 3:90){
-  df_1234[, n_col] = as.numeric(df_1234[, n_col])
-}
+# install.packages("reshape2")
+library(reshape2)
 
-class(df_1234$`1925년 총인구(명)`)
-total_population <- tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE) #1925년 총인구를 행정구역별로 sum합니다. na.rm=TRUE를 통해 NA값은 sum에서 제외합니다.
+
+total_1925 <- melt(total_1925)
+total_1925
+
+ggplot(total_1925, aes(x=Var1, y=value, fill = ..y..),binwidth=1000) + geom_histogram(stat='identity') + scale_fill_gradient(low = "#CCE5FF", high =  "#FABDB3") + theme(text = element_text(size = 5 ,   family = "AppleSDGothicNeo-SemiBold"))
 
