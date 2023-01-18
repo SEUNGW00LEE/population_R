@@ -130,14 +130,22 @@ file.remove('dataset/alltime_population.xlsx')
 write.xlsx(df_1234, file = "dataset/alltime_population.xlsx")
 
 # Data Visualization
-
+# install.packages("tidyverse")
+# install.packages("nord")
+# install.packages("viridis")
+# install.packages("gapminder")
 # install.packages('gganimate')
 # install.packages('gifski')
 # install.packages('png')
 
 library(ggplot2)
+library(tidyverse)
+library(gganimate)
+library(nord)
+library(viridis)
+library(gapminder)
 
-install.packages("extrafont")
+# install.packages("extrafont")
 library(extrafont)
 font_import()
 
@@ -150,9 +158,22 @@ font_import()
 library(reshape2)
 
 total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE) #1925년 총인구를 행정구역별로 sum합니다. na.rm=TRUE를 통해 NA값은 sum에서 제외합니다.
+colnames(df_1234)
+total_years = c(`1925년 총인구(명)`, )
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
+total_1925 = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum, na.rm=TRUE)
 
-total_1925 <- melt(total_1925)
-total_1925
+total_1925 <- melt(total_1925, id.vars = c('지역별'), value.name = '1925_total')
+total_1925$value <- "1925_total"
+View(total_1925)
 
-ggplot(total_1925, aes(x=Var1, y=value, fill = ..y..),binwidth=1000) + geom_histogram(stat='identity') + scale_fill_gradient(low = "#CCE5FF", high =  "#FABDB3") + theme(text = element_text(size = 5 ,   family = "AppleSDGothicNeo-SemiBold"))
+ggplot(total_1925, aes(x=Var1, y=value, fill = ..y..),binwidth=1000) + geom_histogram(stat='identity') + scale_fill_gradient(low = "#CCE5FF", high =  "#FABDB3") + theme(text = element_text(size = 5 ,   family = "AppleSDGothicNeo-SemiBold")) +ggtitle("1925 총인구(명)")
+
+library(gganimate)
 
