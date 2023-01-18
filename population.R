@@ -1,3 +1,10 @@
+# FIX: 버그 수정
+# DOCS: 문서 수정
+# STYLE: 스타일 관련 기능(코드 포맷팅, 세미콜론 누락, 코드 자체의 변경이 없는 경우)
+# REFACTOR: 코드 리펙토링
+# TEST: 테스트 코트, 리펙토링 테스트 코드 추가
+# CHORE: 빌드 업무 수정, 패키지 매니저 수정(ex .gitignore 수정 같은 경우)
+
 # 엑셀 파일 불러오기
 library(readxl)
 
@@ -129,6 +136,10 @@ library(ggplot2)
 # 각 연도, 행정구역, 연령별 인구 히스토그램(ggplot) -> 모든 행정구역별 히스토그램 -> 연도별 행정구역, 연령별 인구 히스토그램 애니메이션(gganimate)
 
 #data type이 character인 문제가 있다. num으로 바꿔줘야한다.
+for(n_col in 3:90){
+  df_1234[, n_col] = as.numeric(df_1234[, n_col])
+}
+
 class(df_1234$`1925년 총인구(명)`)
 total_population <- tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별, sum)
 
