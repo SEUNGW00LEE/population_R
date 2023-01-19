@@ -35,6 +35,7 @@
 
 - [x] 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
   
-  ![population](https://user-images.githubusercontent.com/86904141/213377909-9cb44a11-01e6-4bb8-b522-ee8961efd533.gif)
+![population](https://user-images.githubusercontent.com/86904141/213381884-2dc72406-4d15-48ff-a7b0-89d99875d22c.gif)
+  
   
 - [ ] 각 연도, 행정구역, 연령별 인구 히스토그램(ggplot) -> 모든 행정구역별 히스토그램 -> 연도별 행정구역, 연령별 인구 히스토그램 애니메이션(gganimate)
