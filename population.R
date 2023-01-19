@@ -159,7 +159,7 @@ library(reshape2)
 
 total_name <- colnames(df_1234[grep('총인구', colnames(df_1234))])
 total_name
-#연도별로 행정구역별 인구를 합칩니다. NA값은 제외하여 합계를 구합니다. 
+#연도별로 행정구역별 인구를 합칩니다. NA값은 제외하여 합계를 구합니다(na.rm=TRUE). 
 ## 비효율적인 코드로 보입니다. ## 리팩토링이 필요합니다.
 
 total_1925 = data.frame(t(tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별,sum, na.rm=TRUE)))
