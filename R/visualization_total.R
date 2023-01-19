@@ -137,7 +137,7 @@ total_population
 # 영상 저장
 #install.packages('av')
 
-# anim_save(filename = "population.gif",
+# anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population.gif",
 #           animation = total_population,
 #           nframes = 200, end_pause = 20,
 #           width = 1080, height = 720, 
