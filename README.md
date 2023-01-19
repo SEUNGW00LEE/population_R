@@ -28,11 +28,14 @@
 
 ## Data Visualization
 
-- ggplot2
 
-- gganimate
 
-- 원하는 시각화 
+### ggplot2, gganimate를 통해 Data Visualization
 
-  + 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
-  + 각 연도, 행정구역, 연령별 인구 히스토그램(ggplot) -> 모든 행정구역별 히스토그램 -> 연도별 행정구역, 연령별 인구 히스토그램 애니메이션(gganimate)
+
+- [x] 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
+  
+![population](https://user-images.githubusercontent.com/86904141/213381884-2dc72406-4d15-48ff-a7b0-89d99875d22c.gif)
+  
+  
+- [ ] 각 연도, 행정구역, 연령별 인구 히스토그램(ggplot) -> 모든 행정구역별 히스토그램 -> 연도별 행정구역, 연령별 인구 히스토그램 애니메이션(gganimate)
