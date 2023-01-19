@@ -254,16 +254,21 @@ total_population <-
         plot.title = element_text(hjust = 0.5,size=20, family = "AppleSDGothicNeo-SemiBold", face='bold', color = "darkblue"))+
   transition_states(year,
                     transition_length=10,
-                    state_length=1)+
+                    state_length=2)+
   scale_y_continuous(labels = scales::comma)+
   ggtitle('{closest_state}년 대한민국 지역별 인구수',
           subtitle = '{frame} / {nframes}')
-total_population
-#install.packages('av')
+
+
+#원하는 크기와 frame으로 total_population을 설정합니다.
+#시각화가 끝난후 20frame 기다렸다가 다시 재생합니다.
 
 total_population <-animate(plot=total_population, nframes=200, end_pause = 20, width=1080, height=720)
 
+
 # 영상 저장
+#install.packages('av')
+
 animate(total_population,
         renderer=av_renderer())
 
