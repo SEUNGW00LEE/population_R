@@ -1,9 +1,12 @@
 # FIX: 버그 수정
+# FEAT: 새로운 기능
 # DOCS: 문서 수정
 # STYLE: 스타일 관련 기능(코드 포맷팅, 세미콜론 누락, 코드 자체의 변경이 없는 경우)
 # REFACTOR: 코드 리펙토링
 # TEST: 테스트 코트, 리펙토링 테스트 코드 추가
 # CHORE: 빌드 업무 수정, 패키지 매니저 수정(ex .gitignore 수정 같은 경우)
+# BUILD: 시스템 또는 외부 종속성에 영향을 미치는 변경사항 (npm, gulp, yarn 레벨)
+# REVERT: 작업 되돌리기
 
 # 엑셀 파일 불러오기
 library(readxl)
@@ -159,7 +162,11 @@ library(reshape2)
 
 total_name <- colnames(df_1234[grep('총인구', colnames(df_1234))])
 total_name
+<<<<<<< HEAD
 #연도별로 행정구역별 인구를 합칩니다. NA값은 제외하여 합계를 구합니다(na.rm=TRUE). 
+=======
+#연도별로 행정구역별 인구를 합칩니다. NA값은 제외하여 합계를 구합니다. 
+>>>>>>> 90fbfd3bf94c602d4148f78de97a8054902e835d
 ## 비효율적인 코드로 보입니다. ## 리팩토링이 필요합니다.
 
 total_1925 = data.frame(t(tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별,sum, na.rm=TRUE)))
