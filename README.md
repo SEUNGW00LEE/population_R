@@ -28,7 +28,9 @@
 
 ## Data Visualization
 
-- ggplot2, gganimate를 통해 Data Visualization
+
+
+### ggplot2, gganimate를 통해 Data Visualization
 
 
 - [x] 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
