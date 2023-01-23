@@ -115,5 +115,37 @@ seoullist <- mget(paste0('seoul_', c(1925,1940,1944,1955,1960,1966,1970,1975,198
 #위의 모든 데이터프레임을 seoul_all로 합칩니다.
 seoul_all <- Reduce(function(x, y) merge(x, y, all=TRUE), seoullist)
 
+#양방향 피라미드를 만들기위해 남자 인구수를 음수로 바꿉니다.
+seoul_all$male <- -1 * seoul_all$male
+seoul_all$age <- factor(seoul_all$age)
+View(seoul_all)
+longdf <- melt(seoul_all, id.vars=c("year",'age'), value.name="population", variable.name="Gender")
+
+
+
+
+
+# seoul_ani <- seoul_all %>% 
+#   gather(key='gender', value='population', male, female) 
+# View(seoul_ani)
+# library(ggplot2) 
+# ggplot(data=seoul_ani,
+#        aes(x=age,
+#            y=ifelse(gender=='female', population/10000, -population/10000),
+#            fill=gender)) +
+#   geom_bar(stat='identity') + 
+#   geom_bar(stat='identity', width=0.9, alpha=0.8) + 
+#   scale_y_continuous(name='인구(만명)', labels = c(50,25,0,25,50)) +
+#   coord_flip() + 
+#   labs(title='서울시의 년도별 인구수') + 
+#   scale_fill_manual(name='성별', labels=c('남','여'), values=c('skyblue', 'hotpink')) +
+#   theme_minimal() + 
+#   theme(legend.position='bottom', title=element_text(size=16)) + 
+#   theme(legend.position = 'bottom') +
+#   transition_components(year) +
+#   enter_fade() -> p
+# install.packages('gifski') 
+# 
+# animate(p, renderer = gifski_renderer(loop=TRUE), width=600, height=600)
 
 

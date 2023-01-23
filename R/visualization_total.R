@@ -108,7 +108,7 @@ total_2021 <- mutate(total_2021, year = 2021) %>%
 mylist <- mget(paste0('total_', c(1925,1940,1944,1955,1960,1966,1970,1975,1980,1985,1990,1995,2000,2005,2010,2015,2016,2017,2018,2019,2020,2021))) #위에서 만든 데이터 프레임의 이름을 mylist에 저장합니다.
 
 total_all <- Reduce(function(x, y) merge(x, y, all=TRUE), mylist) #위의 모든 dataframe을 total_all로 merge합니다.
-
+View(total_all)
 #ggplot, gganimate를 통한 데이터시각화
 #년도에 따라, 지역별 인구수를 시각화합니다.
 
