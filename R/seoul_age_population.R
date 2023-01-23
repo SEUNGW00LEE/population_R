@@ -26,60 +26,94 @@ font_import() #저장된 폰트 불러오기 (y 입력)
 
 # Data Visualization Concrete
 
-# 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
-# 각 연도, 행정구역, 연령별 인구 히스토그램(ggplot) -> 모든 행정구역별 히스토그램 -> 연도별 행정구역, 연령별 인구 히스토그램 애니메이션(gganimate)
+# 각 연도, 연령별 남녀 인구 히스토그램 (ggplot) -> 연도별 남녀 서울시 연령별 히스토그램 애니메이션(gganimate)
 
 # install.packages("reshape2")
 library(reshape2)
 library(gganimate)
-total_name <- colnames(df_1234[grep('총인구', colnames(df_1234))])
-total_name
 
-#연도별로 행정구역별 인구를 합칩니다. NA값은 제외하여 합계를 구합니다(na.rm=TRUE). 
+
+#서울특별시만을 추출합니다.
+seoul_population <- population %>% filter(행정구역별 == "서울특별시")
+
+#시각화에 이용하지않을 총인구와 성비 column 을 삭제합니다.
+seoul_population[grep('총인구', colnames(seoul_population))] <- NULL
+seoul_population[grep('성비', colnames(seoul_population))] <- NULL
+
+#년도별로, 연령별 남녀 인구수 정보를 포함한 dataframe을 생성합니다.
+#colnames()<-"" 를 통해 동일한 변수명으로 바꿔줍니다.
 ## 비효율적인 코드로 보입니다. ## 리팩토링이 필요합니다.
-head(population)
-#위에서 만든 dataframe을 모두 하나로 합칩니다.
-mylist <- mget(paste0('total_', c(1925,1940,1944,1955,1960,1966,1970,1975,1980,1985,1990,1995,2000,2005,2010,2015,2016,2017,2018,2019,2020,2021))) #위에서 만든 데이터 프레임의 이름을 mylist에 저장합니다.
+seoul_1925 <-data.frame(seoul_population[grep('1925', colnames(seoul_population))])
+seoul_1925 <- mutate(seoul_1925, age = seoul_population$연령별) %>% mutate(seoul_1925, year = 1925) 
+colnames(seoul_1925)[c(1,2)] <-c("male" ,"female")
+seoul_1940 <-data.frame(seoul_population[grep('1940', colnames(seoul_population))])
+seoul_1940 <- mutate(seoul_1940, age = seoul_population$연령별) %>% mutate(seoul_1940, year = 1940)
+colnames(seoul_1940)[c(1,2)] <-c("male" ,"female")
+seoul_1944 <-data.frame(seoul_population[grep('1944', colnames(seoul_population))])
+seoul_1944 <- mutate(seoul_1944, age = seoul_population$연령별) %>% mutate(seoul_1944, year = 1944)
+colnames(seoul_1944)[c(1,2)] <-c("male", "female")
+seoul_1955 <-data.frame(seoul_population[grep('1955', colnames(seoul_population))])
+seoul_1955 <- mutate(seoul_1955, age = seoul_population$연령별) %>% mutate(seoul_1955, year = 1955)
+colnames(seoul_1955)[c(1,2)] <-c("male", "female")
+seoul_1960 <-data.frame(seoul_population[grep('1960', colnames(seoul_population))])
+seoul_1960 <- mutate(seoul_1960, age = seoul_population$연령별) %>% mutate(seoul_1960, year = 1960)
+colnames(seoul_1960)[c(1,2)] <-c("male", "female")
+seoul_1966 <-data.frame(seoul_population[grep('1966', colnames(seoul_population))])
+seoul_1966 <- mutate(seoul_1966, age = seoul_population$연령별) %>% mutate(seoul_1966, year = 1966)
+colnames(seoul_1966)[c(1,2)] <-c("male", "female")
+seoul_1970 <-data.frame(seoul_population[grep('1970', colnames(seoul_population))])
+seoul_1970 <- mutate(seoul_1970, age = seoul_population$연령별) %>% mutate(seoul_1970, year = 1970)
+colnames(seoul_1970)[c(1,2)] <-c("male", "female")
+seoul_1975 <-data.frame(seoul_population[grep('1975', colnames(seoul_population))])
+seoul_1975 <- mutate(seoul_1975, age = seoul_population$연령별) %>% mutate(seoul_1975, year = 1975)
+colnames(seoul_1975)[c(1,2)] <-c("male", "female")
+seoul_1980 <-data.frame(seoul_population[grep('1980', colnames(seoul_population))])
+seoul_1980 <- mutate(seoul_1980, age = seoul_population$연령별) %>% mutate(seoul_1980, year = 1980)
+colnames(seoul_1980)[c(1,2)] <-c("male", "female")
+seoul_1985 <-data.frame(seoul_population[grep('1985', colnames(seoul_population))])
+seoul_1985 <- mutate(seoul_1985, age = seoul_population$연령별) %>% mutate(seoul_1985, year = 1985)
+colnames(seoul_1985)[c(1,2)] <-c("male", "female")
+seoul_1990 <-data.frame(seoul_population[grep('1990', colnames(seoul_population))])
+seoul_1990 <- mutate(seoul_1990, age = seoul_population$연령별) %>% mutate(seoul_1990, year = 1990)
+colnames(seoul_1990)[c(1,2)] <-c("male", "female")
+seoul_1995 <-data.frame(seoul_population[grep('1995', colnames(seoul_population))])
+seoul_1995 <- mutate(seoul_1995, age = seoul_population$연령별) %>% mutate(seoul_1995, year = 1995)
+colnames(seoul_1995)[c(1,2)] <-c("male", "female")
+seoul_2000 <-data.frame(seoul_population[grep('2000', colnames(seoul_population))])
+seoul_2000 <- mutate(seoul_2000, age = seoul_population$연령별) %>% mutate(seoul_2000, year = 2000)
+colnames(seoul_2000)[c(1,2)] <-c("male", "female")
+seoul_2005 <-data.frame(seoul_population[grep('2005', colnames(seoul_population))])
+seoul_2005 <- mutate(seoul_2005, age = seoul_population$연령별) %>% mutate(seoul_2005, year = 2005)
+colnames(seoul_2005)[c(1,2)] <-c("male", "female")
+seoul_2010 <-data.frame(seoul_population[grep('2010', colnames(seoul_population))])
+seoul_2010 <- mutate(seoul_2010, age = seoul_population$연령별) %>% mutate(seoul_2010, year = 2010)
+colnames(seoul_2010)[c(1,2)] <-c("male", "female")
+seoul_2015 <-data.frame(seoul_population[grep('2015', colnames(seoul_population))])
+seoul_2015 <- mutate(seoul_2015, age = seoul_population$연령별) %>% mutate(seoul_2015, year = 2015)
+colnames(seoul_2015)[c(1,2)] <-c("male", "female")
+seoul_2016 <-data.frame(seoul_population[grep('2016', colnames(seoul_population))])
+seoul_2016 <- mutate(seoul_2016, age = seoul_population$연령별) %>% mutate(seoul_2016, year = 2016)
+colnames(seoul_2016)[c(1,2)] <-c("male", "female")
+seoul_2017 <-data.frame(seoul_population[grep('2017', colnames(seoul_population))])
+seoul_2017 <- mutate(seoul_2017, age = seoul_population$연령별) %>% mutate(seoul_2017, year = 2017)
+colnames(seoul_2017)[c(1,2)] <-c("male", "female")
+seoul_2018 <-data.frame(seoul_population[grep('2018', colnames(seoul_population))])
+seoul_2018 <- mutate(seoul_2018, age = seoul_population$연령별) %>% mutate(seoul_2018, year = 2018)
+colnames(seoul_2018)[c(1,2)] <-c("male", "female")
+seoul_2019 <-data.frame(seoul_population[grep('2019', colnames(seoul_population))])
+seoul_2019 <- mutate(seoul_2019, age = seoul_population$연령별) %>% mutate(seoul_2019, year = 2019)
+colnames(seoul_2019)[c(1,2)] <-c("male", "female")
+seoul_2020 <-data.frame(seoul_population[grep('2020', colnames(seoul_population))])
+seoul_2020 <- mutate(seoul_2020, age = seoul_population$연령별) %>% mutate(seoul_2020, year = 2020)
+colnames(seoul_2020)[c(1,2)] <-c("male", "female")
+seoul_2021 <-data.frame(seoul_population[grep('2021', colnames(seoul_population))])
+seoul_2021 <- mutate(seoul_2021, age = seoul_population$연령별) %>% mutate(seoul_2021, year = 2021)
+colnames(seoul_2021)[c(1,2)] <-c("male", "female")
 
-total_all <- Reduce(function(x, y) merge(x, y, all=TRUE), mylist) #위의 모든 dataframe을 total_all로 merge합니다.
+seoullist <- mget(paste0('seoul_', c(1925,1940,1944,1955,1960,1966,1970,1975,1980,1985,1990,1995,2000,2005,2010,2015,2016,2017,2018,2019,2020,2021))) #위에서 만든 데이터 프레임의 이름을 mylist에 저장합니다.
 
-#ggplot, gganimate를 통한 데이터시각화
-#년도에 따라, 지역별 인구수를 시각화합니다.
-
-total_population <-
-  ggplot(total_all, aes(x=area, y=population, fill = area)) +
-  geom_col(show.legend=FALSE)+
-  geom_text(aes(x=area, y=population, label=population), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
-  scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
-  theme_minimal()+
-  theme(text = element_text(size = 11 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold"), #font를 설정합니다. 
-        plot.title = element_text(hjust = 0.5,size=20, family = "AppleSDGothicNeo-SemiBold", face='bold', color = "darkblue"))+ #title font를 설정합니다.
-  transition_states(year,
-                    transition_length=10, #총 시간
-                    state_length=2)+ #각 년도별 시간
-  scale_y_continuous(labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
-  ggtitle('{closest_state}년 대한민국 지역별 인구수',
-          subtitle = '{frame} / {nframes}')+
-  xlab("지역") + ylab("지역별 총인구") #x축 이름과 y축 이름
-
-
-#원하는 크기와 frame으로 total_population을 설정합니다.
-#시각화가 끝난후 20frame 기다렸다가 다시 재생합니다.
-
-total_population <-animate(plot=total_population, nframes=200, end_pause = 20, width=1080, height=720)
-total_population
-
-# 영상 저장
-
-# anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population.gif",
-#           animation = total_population,
-#           nframes = 200, end_pause = 20,
-#           width = 1080, height = 720, 
-#           renderer = gifski_renderer(loop = FALSE))
-
-
-
-
+#위의 모든 데이터프레임을 seoul_all로 합칩니다.
+seoul_all <- Reduce(function(x, y) merge(x, y, all=TRUE), seoullist)
 
 
 
