@@ -191,18 +191,18 @@ View(total_all)
 total_population <-
   ggplot(total_all, aes(x=area, y=population_10000, fill = area)) +
   geom_col(show.legend=FALSE)+
-  geom_text(aes(x=area, y=population_10000, label=as.character(population_10000)), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
+  geom_text(aes(x=area, y=population_10000, label=as.character(population_10000)), hjust = -0.7, family = "AppleSDGothicNeo-SemiBold", size=5)+ #hist bar위의 숫자를 표시합니다.
   scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
   theme_minimal()+
-  theme(text = element_text(size = 20 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold"), #font를 설정합니다. 
-        plot.title = element_text(hjust = 0.5,size=20, family = "AppleSDGothicNeo-SemiBold", face='bold', color = "darkblue"))+ #title font를 설정합니다.
+  theme(axis.text.y = element_text(size = 15 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold", angle=15, color= "grey3"), axis.text.x = element_text(size = 15 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold", color= "grey3"), axis.title=element_text(size=17, face="bold", color = "grey21", family = "AppleSDGothicNeo-SemiBold"), #font를 설정합니다. 
+        plot.title = element_text(hjust = 0.5,size=22, family = "AppleSDGothicNeo-SemiBold", face='bold', color = "royalblue4"))+ #title font를 설정합니다.
   transition_states(year,
                     transition_length=10, #총 시간
                     state_length=2)+ #각 년도별 시간
-  scale_y_continuous(labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
-  ggtitle('{closest_state}년 대한민국 지역별 인구수',
-          subtitle = '{frame} / {nframes}')+
+  scale_y_continuous(breaks=seq(0,1500,250), labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
+  ggtitle('{closest_state}년 대한민국 지역별 인구수')+
   xlab("지역") + ylab("지역별 총인구(만명)") + #x축 이름과 y축 이름
+  coord_flip() + 
   enter_fade()
 
 
