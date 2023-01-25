@@ -11,6 +11,23 @@ df_1234 <- df_1234[!(df_1234$행정구역별 =="평안남도"), ]
 df_1234 <- df_1234[!(df_1234$행정구역별 =="함경북도"), ]
 df_1234 <- df_1234[!(df_1234$행정구역별 =="함경남도"), ]
 
+# 지역명 간소화
+df_1234[df_1234$행정구역별 == "서울특별시", "행정구역별"] = "서울"
+df_1234[df_1234$행정구역별 == "부산광역시", "행정구역별"] = "부산"
+df_1234[df_1234$행정구역별 == "충청북도", "행정구역별"] = "충북"
+df_1234[df_1234$행정구역별 == "충청남도", "행정구역별"] = "충남"
+df_1234[df_1234$행정구역별 == "전라북도", "행정구역별"] = "전북"
+df_1234[df_1234$행정구역별 == "전라남도", "행정구역별"] = "전남"
+df_1234[df_1234$행정구역별 == "경상북도", "행정구역별"] = "경북"
+df_1234[df_1234$행정구역별 == "경상남도", "행정구역별"] = "경남"
+df_1234[df_1234$행정구역별 == "대구광역시", "행정구역별"] = "대구"
+df_1234[df_1234$행정구역별 == "광주광역시", "행정구역별"] = "광주"
+df_1234[df_1234$행정구역별 == "대전광역시", "행정구역별"] = "대전"
+df_1234[df_1234$행정구역별 == "울산광역시", "행정구역별"] = "울산"
+df_1234[df_1234$행정구역별 == "인천광역시", "행정구역별"] = "인천"
+df_1234[df_1234$행정구역별 == "세종특별자치시", "행정구역별"] = "세종"
+
+
 # Data Visualization
 # install.packages("tidyverse")
 # install.packages("nord")
@@ -42,6 +59,7 @@ library(gganimate)
 total_name <- colnames(df_1234[grep('총인구', colnames(df_1234))])
 
 #연도별로 행정구역별 인구를 합칩니다. NA값은 제외하여 합계를 구합니다(na.rm=TRUE). 
+#제주특별자치도와 제주도를 합친 제주를 만듭니다.
 ## 비효율적인 코드로 보입니다. ## 리팩토링이 필요합니다.
 total_1925 = data.frame(population = tapply(df_1234$`1925년 총인구(명)`, df_1234$행정구역별,sum, na.rm=TRUE))
 total_1925 <- mutate(total_1925, year = 1925) %>% 
@@ -176,7 +194,7 @@ total_population <-
   geom_text(aes(x=area, y=population_10000, label=as.character(population_10000)), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
   scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
   theme_minimal()+
-  theme(text = element_text(size = 11 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold"), #font를 설정합니다. 
+  theme(text = element_text(size = 20 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold"), #font를 설정합니다. 
         plot.title = element_text(hjust = 0.5,size=20, family = "AppleSDGothicNeo-SemiBold", face='bold', color = "darkblue"))+ #title font를 설정합니다.
   transition_states(year,
                     transition_length=10, #총 시간
