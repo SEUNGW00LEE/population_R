@@ -35,7 +35,7 @@
 
 - [x] 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
   
-![population](https://user-images.githubusercontent.com/86904141/213381884-2dc72406-4d15-48ff-a7b0-89d99875d22c.gif)
+![total_population](https://user-images.githubusercontent.com/86904141/214488927-89211470-8c21-4421-bc45-7fb22f12e4f8.gif)
   
   
 - [ ] 서울시 각 연도별, 연령대별 인구 변화  히스토그램 (ggplot) -> 연도별 서울시 연령대별 히스토그램 애니메이션 (gganimate)
