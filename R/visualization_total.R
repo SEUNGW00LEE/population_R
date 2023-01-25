@@ -4,6 +4,12 @@ setwd("/Users/seungwoo/Desktop/population_R/")
 library(readxl)
 df_1234 = read_excel("/Users/seungwoo/Desktop/population_R/dataset/alltime_population.xlsx")
 
+# 북한 지역 제거
+df_1234 <- df_1234[!(df_1234$행정구역별 =="황해도"),]
+df_1234 <- df_1234[!(df_1234$행정구역별 =="평안북도"), ]
+df_1234 <- df_1234[!(df_1234$행정구역별 =="평안남도"), ]
+df_1234 <- df_1234[!(df_1234$행정구역별 =="함경북도"), ]
+df_1234 <- df_1234[!(df_1234$행정구역별 =="함경남도"), ]
 # Data Visualization
 # install.packages("tidyverse")
 # install.packages("nord")
@@ -126,7 +132,9 @@ total_population <-
   scale_y_continuous(labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
   ggtitle('{closest_state}년 대한민국 지역별 인구수',
           subtitle = '{frame} / {nframes}')+
-  xlab("지역") + ylab("지역별 총인구") #x축 이름과 y축 이름
+  xlab("지역") + ylab("지역별 총인구") + #x축 이름과 y축 이름
+  enter_fade()
+
 
 
 #원하는 크기와 frame으로 total_population을 설정합니다.
@@ -137,11 +145,11 @@ total_population
 # 영상 저장
 #install.packages('av')
 
-# anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population.gif",
-#           animation = total_population,
-#           nframes = 200, end_pause = 20,
-#           width = 1080, height = 720, 
-#           renderer = gifski_renderer(loop = FALSE))
+anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population.gif",
+          animation = total_population,
+          nframes = 200, end_pause = 20,
+          width = 1080, height = 720,
+          renderer = gifski_renderer(loop = FALSE))
 
 
 
