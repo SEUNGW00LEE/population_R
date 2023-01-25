@@ -10,6 +10,7 @@ df_1234 <- df_1234[!(df_1234$행정구역별 =="평안북도"), ]
 df_1234 <- df_1234[!(df_1234$행정구역별 =="평안남도"), ]
 df_1234 <- df_1234[!(df_1234$행정구역별 =="함경북도"), ]
 df_1234 <- df_1234[!(df_1234$행정구역별 =="함경남도"), ]
+
 # Data Visualization
 # install.packages("tidyverse")
 # install.packages("nord")
@@ -114,14 +115,18 @@ total_2021 <- mutate(total_2021, year = 2021) %>%
 mylist <- mget(paste0('total_', c(1925,1940,1944,1955,1960,1966,1970,1975,1980,1985,1990,1995,2000,2005,2010,2015,2016,2017,2018,2019,2020,2021))) #위에서 만든 데이터 프레임의 이름을 mylist에 저장합니다.
 
 total_all <- Reduce(function(x, y) merge(x, y, all=TRUE), mylist) #위의 모든 dataframe을 total_all로 merge합니다.
-View(total_all)
+
+#인구수 만명 단위로 표현
+total_all <- mutate(total_all, population_10000 = round(total_all$population/10000))
+
+
 #ggplot, gganimate를 통한 데이터시각화
 #년도에 따라, 지역별 인구수를 시각화합니다.
 
 total_population <-
-  ggplot(total_all, aes(x=area, y=population, fill = area)) +
+  ggplot(total_all, aes(x=area, y=population_10000, fill = area)) +
   geom_col(show.legend=FALSE)+
-  geom_text(aes(x=area, y=population, label=population), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
+  geom_text(aes(x=area, y=population_10000, label=population_10000), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
   scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
   theme_minimal()+
   theme(text = element_text(size = 11 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold"), #font를 설정합니다. 
@@ -132,7 +137,7 @@ total_population <-
   scale_y_continuous(labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
   ggtitle('{closest_state}년 대한민국 지역별 인구수',
           subtitle = '{frame} / {nframes}')+
-  xlab("지역") + ylab("지역별 총인구") + #x축 이름과 y축 이름
+  xlab("지역") + ylab("지역별 총인구(만명)") + #x축 이름과 y축 이름
   enter_fade()
 
 
