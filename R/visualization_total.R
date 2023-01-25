@@ -173,7 +173,7 @@ View(total_all)
 total_population <-
   ggplot(total_all, aes(x=area, y=population_10000, fill = area)) +
   geom_col(show.legend=FALSE)+
-  geom_text(aes(x=area, y=population_10000, label=population_10000), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
+  geom_text(aes(x=area, y=population_10000, label=as.character(population_10000)), vjust = -0.7, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다.
   scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
   theme_minimal()+
   theme(text = element_text(size = 11 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold"), #font를 설정합니다. 
