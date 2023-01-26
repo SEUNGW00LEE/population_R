@@ -220,11 +220,11 @@ total_population <-
   geom_text(aes(y=0, label=paste(area, " ")), vjust=0.2, hjust=1, family = "AppleSDGothicNeo-SemiBold", size=5)+ #hist bar위의 숫자를 표시합니다
   geom_text(aes(y=population_10000,label=Value_lbl, hjust=0))+
   #scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
-  theme_minimal(base_family = "AppleSDGothicNeo-SemiBold", base_face="bold")+
-  theme(axis.text.x = element_text(size = 15, color="grey3"), 
-        axis.title=element_text(size=17, color= "grey21"),
+  theme_minimal(base_family = "AppleSDGothicNeo-SemiBold")+
+  theme(axis.text.x = element_text(size = 15, color="grey3", face="bold"), 
+        axis.title=element_text(size=17, color= "grey21", face="bold"),
         legend.position="none",
-        plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4"))+ #title font를 설정합니다.
+        plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4", face="bold"))+ #title font를 설정합니다.
   transition_states(year,
                     transition_length=20, #총 시간
                     state_length=4)+ #각 년도별 시간
@@ -239,7 +239,7 @@ total_population <-
     y = "지역별 총 인구(만명)"
   ) +
   coord_flip() + 
-  ease_aes('cubic-in-out')
+  ease_aes('quartic-in-out')
 
 
 
