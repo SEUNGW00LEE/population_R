@@ -37,5 +37,9 @@
   
 ![total_population](https://user-images.githubusercontent.com/86904141/214488927-89211470-8c21-4421-bc45-7fb22f12e4f8.gif)
   
+![total_population_color_ver](https://user-images.githubusercontent.com/86904141/214770781-d29bea28-b888-4f80-926c-2b7c5a8dc95d.gif)
+
+![total_population_onecolor](https://user-images.githubusercontent.com/86904141/214772691-49514a72-3627-47bb-b6bc-24743ba7ccc9.gif)
+
   
 - [ ] 서울시 각 연도별, 연령대별 인구 변화  히스토그램 (ggplot) -> 연도별 서울시 연령대별 히스토그램 애니메이션 (gganimate)
