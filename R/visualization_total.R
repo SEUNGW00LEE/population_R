@@ -26,7 +26,26 @@ df_1234[df_1234$행정구역별 == "대전광역시", "행정구역별"] = "대�
 df_1234[df_1234$행정구역별 == "울산광역시", "행정구역별"] = "울산"
 df_1234[df_1234$행정구역별 == "인천광역시", "행정구역별"] = "인천"
 df_1234[df_1234$행정구역별 == "세종특별자치시", "행정구역별"] = "세종"
+df_1234[df_1234$행정구역별 == "경기도", "행정구역별"] = "경기"
+df_1234[df_1234$행정구역별 == "강원도", "행정구역별"] = "강원"
 
+area_palette <- c('경남' = '#FF65AE',
+                  '경북' = '#FF65AE',
+                  '대구' = '#F763E0',
+                  '울산' = 'maroon',
+                  '부산' = 'lightpink1',
+                  '전남' = 'wheat',
+                  '전북' = 'wheat',
+                  '광주' = 'tan',
+                  '경기' = 'lightblue2',
+                  '서울' = 'steelblue1',
+                  '인천' ='turquoise',
+                  '충남' = 'gold',
+                  '충북' = 'gold',
+                  '대전' = 'yellow2',
+                  '세종' = 'goldenrod2',
+                  '강원' = 'seagreen3',
+                  '제주' = 'darkgrey')
 
 # Data Visualization
 # install.packages("tidyverse")
@@ -209,27 +228,36 @@ ranked_by_year<- total_all %>%
          Value_lbl = paste0(" ",population_10000)) %>% 
   group_by(area) %>% 
   ungroup()
-View(total_all)
-View(ranked_by_year)
+
+library(tidyverse)
 
 total_population <-
   ggplot(ranked_by_year, aes(rank, group=area))+
   geom_tile(aes(y=population_10000/2,
                 height= population_10000,
-                width = 0.9), alpha = 0.8) +
-  geom_text(aes(y=0, label=paste(area, " ")), vjust=0.2, hjust=1, family = "AppleSDGothicNeo-SemiBold", size=5)+ #hist bar위의 숫자를 표시합니다
-  geom_text(aes(y=population_10000,label=Value_lbl, hjust=0))+
-  #scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
+                width = 0.9, fill=area), alpha = 0.8) +
   theme_minimal(base_family = "AppleSDGothicNeo-SemiBold")+
+  geom_text(aes(y=0, label=paste(area, " ")), vjust=0.2, hjust=1,size=5, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다
+  geom_text(aes(y=population_10000, label=Value_lbl, hjust=0))+
+  #scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
   theme(axis.text.x = element_text(size = 15, color="grey3", face="bold"), 
         axis.title=element_text(size=17, color= "grey21", face="bold"),
         legend.position="none",
-        plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4", face="bold"))+ #title font를 설정합니다.
+        plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4", face="bold"),
+        axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_line(size = 0.1, color = "grey"),
+        panel.grid.minor.x = element_line(size = 0.1, color = "grey"),
+        plot.background = element_blank()
+        )+ #title font를 설정합니다.
   transition_states(year,
                     transition_length=40, #총 시간
                     state_length=10)+ #각 년도별 시간
   scale_y_continuous(breaks=seq(0,1500,250), labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
   scale_x_reverse()+
+  scale_fill_manual(values=area_palette)+
   ggtitle('{closest_state}년 대한민국 지역별 인구수')+
   labs(
     title = '{closest_state}년 대한민국 지역별 인구수',
@@ -248,14 +276,16 @@ total_population <-
 
 total_population <-animate(plot=total_population, nframes=400, end_pause = 20, width=1080, height=720)
 total_population
-# 영상 저장
+ # 영상 저장
 #install.packages('av')
 
-anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population.gif",
+anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population_color_ver.gif",
           animation = total_population,
           nframes = 200, end_pause = 20,
           width = 1080, height = 720,
           renderer = gifski_renderer(loop = FALSE))
+
+
 
 
 
