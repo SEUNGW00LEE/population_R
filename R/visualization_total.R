@@ -188,22 +188,58 @@ View(total_all)
 #ggplot, gganimate를 통한 데이터시각화
 #년도에 따라, 지역별 인구수를 시각화합니다.
 
+#devtools::install_github("ellisp/ggflags")
+# install.packages("magick")
+# install.packages("magrittr")
+# install.packages("purrr")
+# install.packages("tidyr")
+library(ggflags)
+library(magick)
+library(gifski)
+library(dplyr)
+library(magrittr)
+library(grid)
+
+
+ranked_by_year<- total_all %>% 
+  group_by(year) %>% 
+  arrange(year, -population_10000) %>% 
+  mutate(rank= 1:n(),
+         Value_rel = population_10000/population_10000[rank==1],
+         Value_lbl = paste0(" ",population_10000)) %>% 
+  group_by(area) %>% 
+  ungroup()
+View(total_all)
+View(ranked_by_year)
+
 total_population <-
-  ggplot(total_all, aes(x=area, y=population_10000, fill = area)) +
-  geom_col(show.legend=FALSE)+
-  geom_text(aes(x=area, y=population_10000, label=as.character(population_10000)), hjust = -0.7, family = "AppleSDGothicNeo-SemiBold", size=5)+ #hist bar위의 숫자를 표시합니다.
-  scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
-  theme_minimal()+
-  theme(axis.text.y = element_text(size = 15 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold", angle=15, color= "grey3"), axis.text.x = element_text(size = 15 ,   family = "AppleSDGothicNeo-SemiBold", face = "bold", color= "grey3"), axis.title=element_text(size=17, face="bold", color = "grey21", family = "AppleSDGothicNeo-SemiBold"), #font를 설정합니다. 
-        plot.title = element_text(hjust = 0.5,size=22, family = "AppleSDGothicNeo-SemiBold", face='bold', color = "royalblue4"))+ #title font를 설정합니다.
+  ggplot(ranked_by_year, aes(rank, group=area))+
+  geom_tile(aes(y=population_10000/2,
+                height= population_10000,
+                width = 0.9), alpha = 0.8) +
+  geom_text(aes(y=0, label=paste(area, " ")), vjust=0.2, hjust=1, family = "AppleSDGothicNeo-SemiBold", size=5)+ #hist bar위의 숫자를 표시합니다
+  geom_text(aes(y=population_10000,label=Value_lbl, hjust=0))+
+  #scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
+  theme_minimal(base_family = "AppleSDGothicNeo-SemiBold", base_face="bold")+
+  theme(axis.text.x = element_text(size = 15, color="grey3"), 
+        axis.title=element_text(size=17, color= "grey21"),
+        legend.position="none",
+        plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4"))+ #title font를 설정합니다.
   transition_states(year,
-                    transition_length=10, #총 시간
-                    state_length=2)+ #각 년도별 시간
+                    transition_length=20, #총 시간
+                    state_length=4)+ #각 년도별 시간
   scale_y_continuous(breaks=seq(0,1500,250), labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
+  scale_x_reverse()+
   ggtitle('{closest_state}년 대한민국 지역별 인구수')+
-  xlab("지역") + ylab("지역별 총인구(만명)") + #x축 이름과 y축 이름
+  labs(
+    title = '{closest_state}년 대한민국 지역별 인구수',
+    subtitle = "1925-2021년",
+    caption = "KOSTAT; 인구총조사(통계청)",
+    x = "",
+    y = "지역별 총 인구(만명)"
+  ) +
   coord_flip() + 
-  enter_fade()
+  ease_aes('cubic-in-out')
 
 
 
