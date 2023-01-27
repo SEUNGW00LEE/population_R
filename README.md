@@ -35,11 +35,17 @@
 
 - [x] 각 연도, 행정구역별 총인구 히스토그램 (ggplot) -> 연도별 행정구역 총인구 히스토그램 애니메이션(gganimate)
   
-![total_population](https://user-images.githubusercontent.com/86904141/214488927-89211470-8c21-4421-bc45-7fb22f12e4f8.gif)
   
+![total_population](https://user-images.githubusercontent.com/86904141/214488927-89211470-8c21-4421-bc45-7fb22f12e4f8.gif)
+
+- 색깔이 많아 가독성이 안 좋고, 어느 지역이 더 많은지 파악하기 힘듦
+
 ![total_population_color_ver](https://user-images.githubusercontent.com/86904141/214770781-d29bea28-b888-4f80-926c-2b7c5a8dc95d.gif)
+
+- 위의 그래프를 coord_flip을 통해 전환하고, 년도별 더 많은 인구를 가진 지역이 위로 올라오도록 설정 & 가독성을 높이기위해 지역별로 묶어 비슷한 색깔을 지정
 
 ![total_population_onecolor](https://user-images.githubusercontent.com/86904141/214772691-49514a72-3627-47bb-b6bc-24743ba7ccc9.gif)
 
+- 위의 그래프를 단일 색깔로 바꾼 버전
   
 - [ ] 서울시 각 연도별, 연령대별 인구 변화  히스토그램 (ggplot) -> 연도별 서울시 연령대별 히스토그램 애니메이션 (gganimate)
