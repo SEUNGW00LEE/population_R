@@ -29,23 +29,6 @@ df_1234[df_1234$행정구역별 == "세종특별자치시", "행정구역별"] =
 df_1234[df_1234$행정구역별 == "경기도", "행정구역별"] = "경기"
 df_1234[df_1234$행정구역별 == "강원도", "행정구역별"] = "강원"
 
-area_palette <- c('경남' = '#FF65AE',
-                  '경북' = '#FF65AE',
-                  '대구' = '#F763E0',
-                  '울산' = 'maroon',
-                  '부산' = 'lightpink1',
-                  '전남' = 'wheat',
-                  '전북' = 'wheat',
-                  '광주' = 'tan',
-                  '경기' = 'lightblue2',
-                  '서울' = 'steelblue1',
-                  '인천' ='turquoise',
-                  '충남' = 'gold',
-                  '충북' = 'gold',
-                  '대전' = 'yellow2',
-                  '세종' = 'goldenrod2',
-                  '강원' = 'seagreen3',
-                  '제주' = 'darkgrey')
 
 # Data Visualization
 # install.packages("tidyverse")
@@ -219,6 +202,24 @@ library(dplyr)
 library(magrittr)
 library(grid)
 
+area_palette <- c('경남' = '#FF65AE',
+                  '경북' = '#FF65AE',
+                  '대구' = '#F763E0',
+                  '울산' = 'maroon',
+                  '부산' = 'lightpink1',
+                  '전남' = 'wheat',
+                  '전북' = 'wheat',
+                  '광주' = 'tan',
+                  '경기' = 'lightblue2',
+                  '서울' = 'steelblue1',
+                  '인천' ='turquoise',
+                  '충남' = 'gold',
+                  '충북' = 'gold',
+                  '대전' = 'yellow2',
+                  '세종' = 'goldenrod2',
+                  '강원' = 'seagreen3',
+                  '제주' = 'darkgrey')
+
 
 ranked_by_year<- total_all %>% 
   group_by(year) %>% 
@@ -239,7 +240,6 @@ total_population <-
   theme_minimal(base_family = "AppleSDGothicNeo-SemiBold")+
   geom_text(aes(y=0, label=paste(area, " ")), vjust=0.2, hjust=1,size=5, family = "AppleSDGothicNeo-SemiBold")+ #hist bar위의 숫자를 표시합니다
   geom_text(aes(y=population_10000, label=Value_lbl, hjust=0))+
-  #scale_color_brewer(palette = "Set3")+ #상대적으로 여러색이 내장된 Set3를 이용합니다.
   theme(axis.text.x = element_text(size = 15, color="grey3", face="bold"), 
         axis.title=element_text(size=17, color= "grey21", face="bold"),
         legend.position="none",
@@ -251,7 +251,7 @@ total_population <-
         panel.grid.major.x = element_line(size = 0.1, color = "grey"),
         panel.grid.minor.x = element_line(size = 0.1, color = "grey"),
         plot.background = element_blank()
-        )+ #title font를 설정합니다.
+        )+ 
   transition_states(year,
                     transition_length=40, #총 시간
                     state_length=10)+ #각 년도별 시간
@@ -271,6 +271,7 @@ total_population <-
 
 
 
+
 #원하는 크기와 frame으로 total_population을 설정합니다.
 #시각화가 끝난후 20frame 기다렸다가 다시 재생합니다.
 
@@ -279,7 +280,7 @@ total_population
  # 영상 저장
 #install.packages('av')
 
-anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population_color.gif",
+anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_population_onecolor.gif",
           animation = total_population,
           nframes = 200, end_pause = 20,
           width = 1080, height = 720,

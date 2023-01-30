@@ -18,8 +18,9 @@ library(tidyverse)
 library(gganimate)
 library(nord)
 library(viridis)
+library(viridisLite)
 library(gapminder)
-
+library(tidyr)
 # install.packages("extrafont")
 library(extrafont)
 font_import() #저장된 폰트 불러오기 (y 입력)
@@ -43,15 +44,19 @@ seoul_population[grep('성비', colnames(seoul_population))] <- NULL
 #년도별로, 연령별 남녀 인구수 정보를 포함한 dataframe을 생성합니다.
 #colnames()<-"" 를 통해 동일한 변수명으로 바꿔줍니다.
 ## 비효율적인 코드로 보입니다. ## 리팩토링이 필요합니다.
-seoul_1925 <-data.frame(seoul_population[grep('1925', colnames(seoul_population))])
-seoul_1925 <- mutate(seoul_1925, age = seoul_population$연령별) %>% mutate(seoul_1925, year = 1925) 
-colnames(seoul_1925)[c(1,2)] <-c("male" ,"female")
-seoul_1940 <-data.frame(seoul_population[grep('1940', colnames(seoul_population))])
-seoul_1940 <- mutate(seoul_1940, age = seoul_population$연령별) %>% mutate(seoul_1940, year = 1940)
-colnames(seoul_1940)[c(1,2)] <-c("male" ,"female")
-seoul_1944 <-data.frame(seoul_population[grep('1944', colnames(seoul_population))])
-seoul_1944 <- mutate(seoul_1944, age = seoul_population$연령별) %>% mutate(seoul_1944, year = 1944)
-colnames(seoul_1944)[c(1,2)] <-c("male", "female")
+
+#1955부터 count
+
+# seoul_1925 <-data.frame(seoul_population[grep('1925', colnames(seoul_population))])
+# seoul_1925 <- mutate(seoul_1925, age = seoul_population$연령별) %>% mutate(seoul_1925, year = 1925) 
+# colnames(seoul_1925)[c(1,2)] <-c("male" ,"female")
+# seoul_1940 <-data.frame(seoul_population[grep('1940', colnames(seoul_population))])
+# seoul_1940 <- mutate(seoul_1940, age = seoul_population$연령별) %>% mutate(seoul_1940, year = 1940)
+# colnames(seoul_1940)[c(1,2)] <-c("male" ,"female")
+# seoul_1944 <-data.frame(seoul_population[grep('1944', colnames(seoul_population))])
+# seoul_1944 <- mutate(seoul_1944, age = seoul_population$연령별) %>% mutate(seoul_1944, year = 1944)
+# colnames(seoul_1944)[c(1,2)] <-c("male", "female")
+
 seoul_1955 <-data.frame(seoul_population[grep('1955', colnames(seoul_population))])
 seoul_1955 <- mutate(seoul_1955, age = seoul_population$연령별) %>% mutate(seoul_1955, year = 1955)
 colnames(seoul_1955)[c(1,2)] <-c("male", "female")
@@ -110,7 +115,7 @@ seoul_2021 <-data.frame(seoul_population[grep('2021', colnames(seoul_population)
 seoul_2021 <- mutate(seoul_2021, age = seoul_population$연령별) %>% mutate(seoul_2021, year = 2021)
 colnames(seoul_2021)[c(1,2)] <-c("male", "female")
 
-seoullist <- mget(paste0('seoul_', c(1925,1940,1944,1955,1960,1966,1970,1975,1980,1985,1990,1995,2000,2005,2010,2015,2016,2017,2018,2019,2020,2021))) #위에서 만든 데이터 프레임의 이름을 mylist에 저장합니다.
+seoullist <- mget(paste0('seoul_', c(1955,1960,1966,1970,1975,1980,1985,1990,1995,2000,2005,2010,2015,2016,2017,2018,2019,2020,2021))) #위에서 만든 데이터 프레임의 이름을 mylist에 저장합니다.
 
 #위의 모든 데이터프레임을 seoul_all로 합칩니다.
 seoul_all <- Reduce(function(x, y) merge(x, y, all=TRUE), seoullist)
@@ -118,34 +123,60 @@ seoul_all <- Reduce(function(x, y) merge(x, y, all=TRUE), seoullist)
 #양방향 피라미드를 만들기위해 남자 인구수를 음수로 바꿉니다.
 seoul_all$male <- -1 * seoul_all$male
 seoul_all$age <- factor(seoul_all$age)
-View(seoul_all)
-longdf <- melt(seoul_all, id.vars=c("year",'age'), value.name="population", variable.name="Gender")
+
+seoul_all <- seoul_all %>% arrange(year, factor(age, levels=c("0 - 4세", "5 - 9세", "10 - 14세", "15 - 19세", "20 - 24세", "25 - 29세", "30 - 34세", "35 - 39세", "40 - 44세", "45 - 49세", "50 - 54세","55 - 59세", "60 - 64세","65 - 69세", "70 - 74세","75 - 79세", "80 - 84세","85 - 89세", "85세이상", "90 - 94세", "95 - 99세","100세이상", "연령미상"))) 
+  
+seoul_ani <- seoul_all %>% gather(key='Gender', value='population', male, female)
+rm(seoul_ani)
+rm(p)
+View(seoul_ani)
+library(ggplot2)
+
+test1955 %>%
+  ggplot(aes(x = age, y = population, fill = Gender))+
+  geom_bar(stat = "identity")+
+  labs(title="서울시 1955년 인구")+
+  theme_minimal(base_family = "AppleSDGothicNeo-SemiBold")+
+  # scale_fill_brewer(palette = "Dark2")
+  coord_flip()
+
+p <- ggplot(seoul_ani,
+       aes(x=age,
+           y=population/10000,
+           fill = Gender)) +
+  geom_bar(stat='identity') +
+  geom_bar(stat='identity', width=0.9, alpha=0.8) +
+  # geom_freqpoly(stat='identity')+
+   # geom_bar(data=seoul_ani %>% filter(Gender=='female'), stat='identity') +
+   # geom_bar(data=seoul_ani %>% filter(Gender=='male'), stat='identity') +
+  # scale_x_continuous(limits = c(0,100)) +
+  scale_y_continuous(name='인구(만명)') +
+  coord_flip() +
+  labs(title = '서울 인구 구조 변화 ({frame_time}년)',
+       x = "") +
+  # scale_y_continuous(labels = paste0(as.character(c(seq(2, 0, -1), seq(1, 2, 1))), "m")) +
+  # scale_y_reverse(limits = 0, 100)
+  scale_fill_manual(name='성별', labels=c('남','여'), values=c('skyblue', 'hotpink')) +
+  theme_minimal(base_family = "AppleSDGothicNeo-SemiBold") +
+  theme(legend.position='bottom', title=element_text(size=16)) +
+  theme(legend.position = 'bottom') +
+  theme(axis.text.x = element_text(size = 15, color="grey3", face="bold"), 
+        axis.title=element_text(size=17, color= "grey21", face="bold"),
+        plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4", face="bold"),
+        axis.line = element_blank(),
+        # axis.text.y = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_line(size = 0.1, color = "grey"),
+        panel.grid.minor.x = element_line(size = 0.1, color = "grey"),
+        plot.background = element_blank())+ 
+  transition_components(year) +
+  enter_fade()
+
+animate(plot = p,  end_pause = 20, width=720, height=480)
 
 
 
-
-
-# seoul_ani <- seoul_all %>% 
-#   gather(key='gender', value='population', male, female) 
-# View(seoul_ani)
-# library(ggplot2) 
-# ggplot(data=seoul_ani,
-#        aes(x=age,
-#            y=ifelse(gender=='female', population/10000, -population/10000),
-#            fill=gender)) +
-#   geom_bar(stat='identity') + 
-#   geom_bar(stat='identity', width=0.9, alpha=0.8) + 
-#   scale_y_continuous(name='인구(만명)', labels = c(50,25,0,25,50)) +
-#   coord_flip() + 
-#   labs(title='서울시의 년도별 인구수') + 
-#   scale_fill_manual(name='성별', labels=c('남','여'), values=c('skyblue', 'hotpink')) +
-#   theme_minimal() + 
-#   theme(legend.position='bottom', title=element_text(size=16)) + 
-#   theme(legend.position = 'bottom') +
-#   transition_components(year) +
-#   enter_fade() -> p
-# install.packages('gifski') 
-# 
-# animate(p, renderer = gifski_renderer(loop=TRUE), width=600, height=600)
+install.packages('gifski')
 
 
