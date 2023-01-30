@@ -48,4 +48,7 @@
 
 - 위의 그래프를 단일 색깔로 바꾼 버전
   
-- [ ] 서울시 각 연도별, 연령대별 인구 변화  히스토그램 (ggplot) -> 연도별 서울시 연령대별 히스토그램 애니메이션 (gganimate)
+- [x] 서울시 각 연도별, 연령대별 인구 변화  히스토그램 (ggplot) -> 연도별 서울시 연령대별 히스토그램 애니메이션 (gganimate)
+
+![seoul_populationpyramid](https://user-images.githubusercontent.com/86904141/215535686-811b6ce2-05b9-42e4-9fb0-2058ec50a84c.gif)
+
