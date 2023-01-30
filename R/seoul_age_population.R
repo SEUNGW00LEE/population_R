@@ -127,53 +127,45 @@ seoul_all$age <- factor(seoul_all$age)
 seoul_all <- seoul_all %>% arrange(year, factor(age, levels=c("0 - 4세", "5 - 9세", "10 - 14세", "15 - 19세", "20 - 24세", "25 - 29세", "30 - 34세", "35 - 39세", "40 - 44세", "45 - 49세", "50 - 54세","55 - 59세", "60 - 64세","65 - 69세", "70 - 74세","75 - 79세", "80 - 84세","85 - 89세", "85세이상", "90 - 94세", "95 - 99세","100세이상", "연령미상"))) 
   
 seoul_ani <- seoul_all %>% gather(key='Gender', value='population', male, female)
-rm(seoul_ani)
-rm(p)
-View(seoul_ani)
+
 library(ggplot2)
 
-test1955 %>%
-  ggplot(aes(x = age, y = population, fill = Gender))+
-  geom_bar(stat = "identity")+
-  labs(title="서울시 1955년 인구")+
-  theme_minimal(base_family = "AppleSDGothicNeo-SemiBold")+
-  # scale_fill_brewer(palette = "Dark2")
-  coord_flip()
-
 p <- ggplot(seoul_ani,
-       aes(x=age,
+       aes(x=factor(age,levels=c("0 - 4세", "5 - 9세", "10 - 14세", "15 - 19세", "20 - 24세", "25 - 29세", "30 - 34세", "35 - 39세", "40 - 44세", "45 - 49세", "50 - 54세","55 - 59세", "60 - 64세","65 - 69세", "70 - 74세","75 - 79세", "80 - 84세","85 - 89세", "85세이상", "90 - 94세", "95 - 99세","100세이상", "연령미상")),
            y=population/10000,
            fill = Gender)) +
   geom_bar(stat='identity') +
   geom_bar(stat='identity', width=0.9, alpha=0.8) +
-  # geom_freqpoly(stat='identity')+
-   # geom_bar(data=seoul_ani %>% filter(Gender=='female'), stat='identity') +
-   # geom_bar(data=seoul_ani %>% filter(Gender=='male'), stat='identity') +
-  # scale_x_continuous(limits = c(0,100)) +
   scale_y_continuous(name='인구(만명)') +
   coord_flip() +
-  labs(title = '서울 인구 구조 변화 ({frame_time}년)',
+  labs(title = '서울 인구 구조 변화 ({as.integer(frame_time)}년)',
        x = "") +
   # scale_y_continuous(labels = paste0(as.character(c(seq(2, 0, -1), seq(1, 2, 1))), "m")) +
-  # scale_y_reverse(limits = 0, 100)
-  scale_fill_manual(name='성별', labels=c('남','여'), values=c('skyblue', 'hotpink')) +
+  scale_fill_manual(values = c("male" = "skyblue","female"="hotpink"),
+                    labels = c("male" = "남자", "female"= "여자"),
+                    breaks = c("male","female"))+
   theme_minimal(base_family = "AppleSDGothicNeo-SemiBold") +
-  theme(legend.position='bottom', title=element_text(size=16)) +
-  theme(legend.position = 'bottom') +
+  theme(legend.position='right', title=element_text(size=16)) +
   theme(axis.text.x = element_text(size = 15, color="grey3", face="bold"), 
         axis.title=element_text(size=17, color= "grey21", face="bold"),
         plot.title = element_text(hjust = 0.5,size=22, color = "royalblue4", face="bold"),
+        legend.title = element_blank(),
         axis.line = element_blank(),
-        # axis.text.y = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_line(size = 0.1, color = "grey"),
         panel.grid.minor.x = element_line(size = 0.1, color = "grey"),
-        plot.background = element_blank())+ 
+        plot.background = element_blank())+
   transition_components(year) +
   enter_fade()
 
-animate(plot = p,  end_pause = 20, width=720, height=480)
+animate(plot = p, nframes = 400,  end_pause = 20, width=720, height=480)
+
+anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/seoul_populationpyramid.gif",
+          animation = p,
+          nframes = 400, end_pause = 20,
+          width = 1080, height = 720,
+          renderer = gifski_renderer(loop = FALSE))
 
 
 
