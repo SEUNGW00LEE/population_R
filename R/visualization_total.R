@@ -243,11 +243,10 @@ ranked_by_year<- df %>%
   group_by(year) %>% 
   arrange(year, -population_10000) %>% 
   mutate(rank= 1:n(),
-         Value_rel = population_10000/population_10000[rank==1],
          Value_lbl = paste0(" ",population_10000)) %>% 
   group_by(area) %>% 
   ungroup()
-
+View(ranked_by_year)
 
 #ggplot, gganimate를 통한 데이터시각화
 #년도에 따라, 지역별 인구수를 시각화합니다.
@@ -309,7 +308,6 @@ total_population <-
   scale_y_continuous(breaks=seq(0,1500,250), labels = scales::comma)+ #축 눈금이 지수형이 아닌 1,000,000식으로 표시합니다.
   scale_x_reverse()+
   scale_fill_manual(values=area_palette)+
-  ggtitle('{closest_state}년 대한민국 지역별 인구수')+
   labs(
     title = '{closest_state}년 대한민국 지역별 인구수',
     subtitle = "1925-2021년",
@@ -337,6 +335,7 @@ anim_save(filename = "/Users/seungwoo/Desktop/population_R/visualization/total_p
           nframes = 200, end_pause = 20,
           width = 1080, height = 720,
           renderer = gifski_renderer(loop = FALSE))
+
 
 
 
